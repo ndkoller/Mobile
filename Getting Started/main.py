@@ -10,7 +10,10 @@ app.config['DEBUG'] = True
 @app.route('/')
 def hello():
     """Return a friendly HTTP greeting."""
-    return str(datetime.now().time())
+    import datetime
+    today = datetime.date.today()
+    print today
+    return today
 
 
 @app.errorhandler(404)
