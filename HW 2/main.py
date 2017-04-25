@@ -71,9 +71,7 @@ class BoatHandler(webapp2.RequestHandler):
     
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        import datetime
-        today = datetime.date.today()
-        self.response.write(today)
+        self.response.write("Working")
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
