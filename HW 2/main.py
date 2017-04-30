@@ -40,10 +40,11 @@ class SlipHandler(webapp2.RequestHandler):
     def post(self):
         slip_data = json.loads(self.request.body)
         """need to generate a new Slip ID"""
-        new_slip = Slip(id=new_slip.key.urlsafe() ,name=boat_data['name'],type=boat_data['type'],length=boat_data['length'],at_sea=True)
+        new_slip = Slip(id='',number=slip_data['number'],current_boat='',arrival_date='')
         new_slip.put()
-        slip_dict = slip_boat.to_dict()
+        slip_dict = new_slip.to_dict()
         slip_dict['self'] = '/Slip/' + new_slip.key.urlsafe() 
+        slip_dict['id'] = new_slip.key.urlsafe()
         self.response.write(json.dumps(slip_dict))
 
     def get(self, id=None):
@@ -57,10 +58,11 @@ class BoatHandler(webapp2.RequestHandler):
     def post(self):
         boat_data = json.loads(self.request.body)
         """need to generate a new boat ID"""
-        new_boat = Boat(id=new_boat.key.urlsafe(),name=boat_data['name'],type=boat_data['type'],length=boat_data['length'],at_sea=True)
+        new_boat = Boat(id='',name=boat_data['name'],type=boat_data['type'],length=boat_data['length'],at_sea=True)
         new_boat.put()
         boat_dict = new_boat.to_dict()
         boat_dict['self'] = '/Boat/' + new_boat.key.urlsafe() 
+        boat_dict['id'] = new_boat.key.urlsafe()
         self.response.write(json.dumps(boat_dict))
 
     def get(self, id=None):
@@ -80,5 +82,7 @@ webapp2.WSGIApplication.allowed_methods = new_allowed_methods
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/Boat',BoatHandler),
-    ('/Boat/(.*)',BoatHandler)
+    ('/Boat/(.*)',BoatHandler),
+    ('/Slip',SlipHandler),
+    ('/Slip/(.*)',SlipHandler)
 ], debug=True)
