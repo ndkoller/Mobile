@@ -79,7 +79,7 @@ class MainHandler(webapp2.RequestHandler):
 
 allowed_methods = webapp2.WSGIApplication.allowed_methods
 new_allowed_methods = allowed_methods.union(('PATCH',))
-webapp2.WSGIApplication.allowed_methods = new_allowed_method
+webapp2.WSGIApplication.allowed_methods = new_allowed_methods
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/Boat',BoatHandler),
