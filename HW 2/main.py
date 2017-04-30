@@ -77,7 +77,7 @@ class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write("Working")
 
-allowed_methods = weapp2.WSGIApplicationallowed_methods
+allowed_methods = webapp2.WSGIApplicationallowed_methods
 new_allowed_methods = allowed_methods.union(('PATCH',))
 webapp2.WSGIApplication.allowed_methods = new_allowed_method
 app = webapp2.WSGIApplication([
