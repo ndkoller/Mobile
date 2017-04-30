@@ -40,6 +40,7 @@ class SlipHandler(webapp2.RequestHandler):
     def post(self):
         slip_data = json.loads(self.request.body)
         new_slip = Slip(id='',number=slip_data['number'],current_boat='',arrival_date=None)
+        new_slip.put()
         new_slip.id = new_slip.key.urlsafe()
         new_slip.put()
         slip_dict = new_slip.to_dict()
@@ -77,6 +78,7 @@ class BoatHandler(webapp2.RequestHandler):
     def post(self):
         boat_data = json.loads(self.request.body)
         new_boat = Boat(id='',name=boat_data['name'],type=boat_data['type'],length=boat_data['length'],at_sea=True)
+        new_slip.put()
         new_boat.id = new_boat.key.urlsafe()
         new_boat.put()
         boat_dict = new_boat.to_dict()
