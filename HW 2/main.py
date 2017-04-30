@@ -31,15 +31,14 @@ class Slip(ndb.Model):
     id = ndb.StringProperty(required=True)
     number = ndb.IntegerProperty(required=True)
     """boat id"""
-    current_boat = ndb.StringProperty(required=True)
-    arrival_date = ndb.DateTimeProperty(auto_now_add=True)
+    current_boat = ndb.StringProperty()
+    arrival_date = ndb.DateTimeProperty()
     """"departure_history":[{"departure_date":"11/4/2014","departed_boat":"123aaa"}...] 
     #Optional for 5% extra credit a list of the dates that previous boats departed the slip"""
 
 class SlipHandler(webapp2.RequestHandler):
     def post(self):
         slip_data = json.loads(self.request.body)
-        """need to generate a new Slip ID"""
         new_slip = Slip(id='',number=slip_data['number'],current_boat='',arrival_date='')
         new_slip.put()
         slip_dict = new_slip.to_dict()
@@ -51,13 +50,26 @@ class SlipHandler(webapp2.RequestHandler):
         if id:
             slip = ndb.Key(urlsafe=id).get();
             slip_d = slip.to_dict()
-            slip_d ['self'] = "/Slip/" + id
+            slip_d['self'] = "/Slip/" + id
             self.response.write(json.dumps(slip_d))
-   
+            
+    def patch(self, id=None)
+        if id: 
+            slip = ndb.Key(urlsafe=id).get();
+            slip_d = slip.to_dict()
+            slip_d['self'] = "/Slip/" + id
+            self.response.write(json.dumps(slip_d))
+    
+    def put(self, id=None)
+        if id:         
+            slip = ndb.Key(urlsafe=id).get();
+            slip_d = slip.to_dict()
+            slip_d['self'] = "/Slip/" + id
+            self.response.write(json.dumps(slip_d))
+            
 class BoatHandler(webapp2.RequestHandler):
     def post(self):
         boat_data = json.loads(self.request.body)
-        """need to generate a new boat ID"""
         new_boat = Boat(id='',name=boat_data['name'],type=boat_data['type'],length=boat_data['length'],at_sea=True)
         new_boat.put()
         boat_dict = new_boat.to_dict()
@@ -69,7 +81,21 @@ class BoatHandler(webapp2.RequestHandler):
         if id:
             b = ndb.Key(urlsafe=id).get();
             b_d = b.to_dict()
-            b_d ['self'] = "/Boat/" + id
+            b_d['self'] = "/Boat/" + id
+            self.response.write(json.dumps(b_d))
+    
+    def patch(self, id=None):
+        if id:
+            b = ndb.Key(urlsafe=id).get();
+            b_d = b.to_dict()
+            b_d['self'] = "/Boat/" + id
+            self.response.write(json.dumps(b_d))
+            
+    def put(self, id=None):
+        if id:
+            b = ndb.Key(urlsafe=id).get();
+            b_d = b.to_dict()
+            b_d['self'] = "/Boat/" + id
             self.response.write(json.dumps(b_d))
     
 class MainHandler(webapp2.RequestHandler):
