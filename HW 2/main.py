@@ -53,14 +53,14 @@ class SlipHandler(webapp2.RequestHandler):
             slip_d['self'] = "/Slip/" + id
             self.response.write(json.dumps(slip_d))
             
-    def patch(self, id=None)
+    def patch(self, id=None):
         if id: 
             slip = ndb.Key(urlsafe=id).get();
             slip_d = slip.to_dict()
             slip_d['self'] = "/Slip/" + id
             self.response.write(json.dumps(slip_d))
     
-    def put(self, id=None)
+    def put(self, id=None):
         if id:         
             slip = ndb.Key(urlsafe=id).get();
             slip_d = slip.to_dict()
