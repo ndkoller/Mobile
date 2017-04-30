@@ -3,11 +3,7 @@ api_version: 1
 threadsafe: yes
 
 handlers:
-- url: /favicon\.ico
-  static_files: favicon.ico
-  upload: favicon\.ico
-
-- url: .*
+- url: /.*
   script: main.app
 
 libraries:

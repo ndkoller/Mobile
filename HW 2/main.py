@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+from google.appengine.ext import ndb
 import webapp2
 import json
 
@@ -73,6 +74,9 @@ class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write("Working")
 
+allowed_methods = weapp2.WSGIApplicationallowed_methods
+new_allowed_methods = allowed_methods.union(('PATCH',))
+webapp2.WSGIApplication.allowed_methods = new_allowed_method
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/Boat',BoatHandler),
