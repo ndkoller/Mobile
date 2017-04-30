@@ -72,13 +72,14 @@ class SlipHandler(webapp2.RequestHandler):
             
     def view(self):
         qry = Slip.query().fetch()
-        self.response.write(json.dumps(qry))
+        qry_dict = qry.to_dict()
+        self.response.write(json.dumps(qry_dict))
             
 class BoatHandler(webapp2.RequestHandler):
     def post(self):
         boat_data = json.loads(self.request.body)
         new_boat = Boat(id='',name=boat_data['name'],type=boat_data['type'],length=boat_data['length'],at_sea=True)
-        new_slip.put()
+        new_boat.put()
         new_boat.id = new_boat.key.urlsafe()
         new_boat.put()
         boat_dict = new_boat.to_dict()
@@ -109,8 +110,9 @@ class BoatHandler(webapp2.RequestHandler):
             self.response.write(json.dumps(boat_dict))
             
     def view(self):
-        qry = Boat.query().fetch()
-        self.response.write(json.dumps(qry))
+        qry = Boat.query().fetch(limit=None)
+        qry_dict = qry.to_dict()
+        self.response.write(json.dumps(qry_dict))
     
 class MainHandler(webapp2.RequestHandler):
     def get(self):
