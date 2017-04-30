@@ -17,6 +17,7 @@
 from google.appengine.ext import ndb
 import webapp2
 import json
+import uuid
 
 class Boat(ndb.Model):
     """Models an individual boat with id, name, type, length, at_seat ."""
@@ -40,7 +41,8 @@ class SlipHandler(webapp2.RequestHandler):
     def post(self):
         slip_data = json.loads(self.request.body)
         """need to generate a new Slip ID"""
-        new_slip = Slip(id=,name=boat_data['name'],type=boat_data['type'],length=boat_data['length'],at_sea=True)
+        new_id = str(uuid.uuid4())
+        new_slip = Slip(id=new_id,name=boat_data['name'],type=boat_data['type'],length=boat_data['length'],at_sea=True)
         new_slip.put()
         slip_dict = slip_boat.to_dict()
         slip_dict['self'] = '/Slip/' + new_slip.key.urlsafe() 
@@ -57,7 +59,8 @@ class BoatHandler(webapp2.RequestHandler):
     def post(self):
         boat_data = json.loads(self.request.body)
         """need to generate a new boat ID"""
-        new_boat = Boat(id=,name=boat_data['name'],type=boat_data['type'],length=boat_data['length'],at_sea=True)
+        new_id = str(uuid.uuid4())
+        new_boat = Boat(id=new_id,name=boat_data['name'],type=boat_data['type'],length=boat_data['length'],at_sea=True)
         new_boat.put()
         boat_dict = new_boat.to_dict()
         boat_dict['self'] = '/Boat/' + new_boat.key.urlsafe() 
