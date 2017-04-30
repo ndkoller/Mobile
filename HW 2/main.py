@@ -39,7 +39,7 @@ class Slip(ndb.Model):
 class SlipHandler(webapp2.RequestHandler):
     def post(self):
         slip_data = json.loads(self.request.body)
-        new_slip = Slip(id='',number=slip_data['number'],current_boat='',arrival_date='')
+        new_slip = Slip(id='',number=slip_data['number'],current_boat='',arrival_date=None)
         new_slip.put()
         slip_dict = new_slip.to_dict()
         slip_dict['self'] = '/Slip/' + new_slip.key.urlsafe() 
