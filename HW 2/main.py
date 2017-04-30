@@ -72,7 +72,7 @@ class SlipHandler(webapp2.RequestHandler):
             
     def get(self):
         qry = Slip.query().fetch()
-        self.response.write(json.dumps(qry))
+        self.response.write(qry)
             
 class BoatHandler(webapp2.RequestHandler):
     def post(self):
@@ -110,7 +110,7 @@ class BoatHandler(webapp2.RequestHandler):
             
     def get(self):
         qry = Boat.query().fetch(limit=None)
-        self.response.write(json.dumps(qry))
+        self.response.write(qry)
     
 class MainHandler(webapp2.RequestHandler):
     def get(self):
