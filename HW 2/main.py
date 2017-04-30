@@ -70,7 +70,7 @@ class SlipHandler(webapp2.RequestHandler):
             slip_dict['self'] = '/Slip/' + new_slip.key.urlsafe() 
             self.response.write(json.dumps(slip_dict))
             
-    def view(self):
+    def get(self):
         qry = Slip.query().fetch()
         qry_dict = qry.to_dict()
         self.response.write(json.dumps(qry_dict))
@@ -109,7 +109,7 @@ class BoatHandler(webapp2.RequestHandler):
             boat_dict['self'] = "/Boat/" + id
             self.response.write(json.dumps(boat_dict))
             
-    def view(self):
+    def get(self):
         qry = Boat.query().fetch(limit=None)
         qry_dict = qry.to_dict()
         self.response.write(json.dumps(qry_dict))
