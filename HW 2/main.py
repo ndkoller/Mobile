@@ -54,12 +54,14 @@ class ArrivalHandler(webapp2.RequestHandler):
             slip_data = json.loads(self.request.body)
             if slip_data['arrival_date']:
                 slip.arrival_date = slip_data['arrival_date']
+            """
             slip_qry = Slip.query().filter(Slip.id == sid).fetch()
             slip_dict = [a.to_dict() for a in slip_qry]
             curr_boat = slip_dict[0]
             if curr_boat['current_boat'] != "":
                 self.response.set_status(403)
                 return
+            """
             boat = ndb.Key(urlsafe=bid).get()
             slip = ndb.Key(urlsafe=sid).get()
             boat_dict = boat.to_dict()
@@ -189,12 +191,13 @@ class BoatHandler(webapp2.RequestHandler):
             if boat_dict['name'] != boat_data['name']:
                 boat.name = boat_data['name']
                 boat.put()
-            if boat_dict['type']  != boat_data['type']:
+            if boat_dict['type'] != boat_data['type']:
                 boat.type = boat_data['type']
                 boat.put()
             if boat_dict['length'] != boat_data['length']:
                 boat.length = boat_data['length']
                 boat.put()
+            boat_dict = boat.to_dict()
             boat_dict['self'] = "/Boat/" + id
             self.response.write(json.dumps(boat_dict))
             
