@@ -63,10 +63,10 @@ class DepartureHandler(webapp2.RequestHandler):
         if bid and sid:
             boat = ndb.Key(urlsafe=bid).get()
             slip = ndb.Key(urlsafe=sid).get()
-                boat_dict = boat.to_dict()
-                slip_dict = slip.to_dict()
-                boat_dict['at_sea'] = True
-                slip_dict['current_boat'] = None
+            boat_dict = boat.to_dict()
+            slip_dict = slip.to_dict()
+            boat_dict['at_sea'] = True
+            slip_dict['current_boat'] = None
     
 class SlipHandler(webapp2.RequestHandler):
     def post(self):
