@@ -115,6 +115,7 @@ class SlipHandler(webapp2.RequestHandler):
         if id: 
             slip_data = json.loads(self.request.body)
             slip = ndb.Key(urlsafe=id).get()
+            slip_dict = slip.to_dict()
             if slip_dict['number'] != slip_data['number']:
                 slip.number = slip_data['number']
                 slip.put()
