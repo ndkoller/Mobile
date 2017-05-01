@@ -120,10 +120,16 @@ class SlipHandler(webapp2.RequestHandler):
             curr_boat = slip_dict[0]
             if curr_boat['current_boat']:
                 empty, extra, curr_boat_id = curr_boat['current_boat'].split('/')
+                boat = ndb.Key(urlsafe=curr_boat_id).get()
+                if boat:
+                    boat.at_sea = True
+                """
                 boat_qry = Boat.query().filter(curr_boat_id == Boat.id).fetch()
                 if boat_qry:
-                    boat_dict = boat_qry.to_dict()
+                    boat_dict = [a.to_dict() for a in boat_qry]
+                    curr_boat = boat_dict[0]
                     boat_dict['at_sea'] = True
+                """
             ndb.Key(urlsafe=id).delete();
             self.response.set_status(204)
     
