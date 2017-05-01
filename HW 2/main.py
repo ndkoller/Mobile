@@ -51,10 +51,11 @@ class ArrivalHandler(webapp2.RequestHandler):
         """Boat Arrival"""
         """if bid and sid:"""
         try:
+            """
             slip_data = json.loads(self.request.body)
             if slip_data['arrival_date']:
                 slip.arrival_date = slip_data['arrival_date']
-            """
+            
             slip_qry = Slip.query().filter(Slip.id == sid).fetch()
             slip_dict = [a.to_dict() for a in slip_qry]
             curr_boat = slip_dict[0]
