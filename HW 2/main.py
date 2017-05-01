@@ -137,9 +137,7 @@ class BoatHandler(webapp2.RequestHandler):
             b_d['self'] = "/Boat/" + id
             self.response.write(json.dumps(b_d))
     
-    def get(self):
-        qry = Boat.query().fetch(limit=None)
-        self.response.write(json.dumps([p.to_dict() for p in qry])) 
+
         
     def delete(self, id=None):
         if id:
@@ -175,9 +173,20 @@ class BoatHandler(webapp2.RequestHandler):
             boat_dict['self'] = "/Boat/" + id
             self.response.write(json.dumps(boat_dict))
    
+class BoatViewHandler(webapp2.RequestHandler):
+    def get(self):
+        qry = Boat.query().fetch(limit=None)
+        self.response.write(json.dumps([p.to_dict() for p in qry])) 
+
+class SlipViewHandler(webapp2.RequestHandler):
+    def get(self):
+        qry = Slip.query().fetch(limit=None)
+        self.response.write(json.dumps([p.to_dict() for p in qry])) 
+        
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write("Working")
+        
 
 allowed_methods = webapp2.WSGIApplication.allowed_methods
 new_allowed_methods = allowed_methods.union(('PATCH',))
@@ -191,5 +200,7 @@ app = webapp2.WSGIApplication([
     ('/Arrival',ArrivalHandler),
     ('/Arrival/(.*)',ArrivalHandler),
     ('/Departure',DepartureHandler),
-    ('/Departure/(.*)',DepartureHandler)
+    ('/Departure/(.*)',DepartureHandler),
+    ('/ViewBoats/',BoatViewHandler),
+    ('/ViewSlips/',SlipViewHandler)
 ], debug=True)
