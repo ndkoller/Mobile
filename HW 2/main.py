@@ -51,20 +51,17 @@ class ArrivalHandler(webapp2.RequestHandler):
         """Boat Arrival"""
         """if bid and sid:"""
         try:
-            """
             slip_data = json.loads(self.request.body)
+            boat = ndb.Key(urlsafe=bid).get()
+            slip = ndb.Key(urlsafe=sid).get()
             if slip_data['arrival_date']:
                 slip.arrival_date = slip_data['arrival_date']
-            
             slip_qry = Slip.query().filter(Slip.id == sid).fetch()
             slip_dict = [a.to_dict() for a in slip_qry]
             curr_boat = slip_dict[0]
             if curr_boat['current_boat'] != "":
                 self.response.set_status(403)
                 return
-            """
-            boat = ndb.Key(urlsafe=bid).get()
-            slip = ndb.Key(urlsafe=sid).get()
             boat_dict = boat.to_dict()
             slip_dict = slip.to_dict()
             boat_dict['at_sea'] = False
