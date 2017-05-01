@@ -62,6 +62,8 @@ class ArrivalHandler(webapp2.RequestHandler):
         boat_dict['at_sea'] = False
         slip_dict['current_boat'] = '/Boat/' + bid
         self.response.write(json.dumps(boat_dict))
+        self.response.write(json.dumps(slip_dict))
+        
 
 class DepartureHandler(webapp2.RequestHandler):
     def put(self,bid=None,sid=None):
@@ -73,6 +75,9 @@ class DepartureHandler(webapp2.RequestHandler):
         slip_dict = slip.to_dict()
         boat_dict['at_sea'] = True
         slip_dict['current_boat'] = None
+        self.response.write(json.dumps(boat_dict))
+        self.response.write(json.dumps(slip_dict))
+        
     
 class SlipHandler(webapp2.RequestHandler):
     def post(self):
@@ -99,10 +104,10 @@ class SlipHandler(webapp2.RequestHandler):
             curr_boat = slip_dict[0]
             if curr_boat['current_boat']:
                 empty, extra, curr_boat_id = curr_boat['current_boat'].split('/')
-            boat_qry = Boat.query().filter(Slip.current_boat == Boat.id).fetch()
-            if boat_qry:
-                boat_dict = boat_qry.to_dict()
-                boat_dict['at_sea'] = True
+                boat_qry = Boat.query().filter(Slip.current_boat == Boat.id).fetch()
+                if boat_qry:
+                    boat_dict = boat_qry.to_dict()
+                    boat_dict['at_sea'] = True
             ndb.Key(urlsafe=id).delete();
             self.response.set_status(204)
     
