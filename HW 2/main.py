@@ -39,6 +39,7 @@ class Slip(ndb.Model):
 class Arrival(ndb.Model):
     sid = ndb.StringProperty()
     bid = ndb.StringProperty()
+    arrival_date = ndb.DateTimeProperty()
 
 class Departure(ndb.Model):
     sid = ndb.StringProperty()
