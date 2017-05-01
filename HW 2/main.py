@@ -36,6 +36,28 @@ class Slip(ndb.Model):
     """"departure_history":[{"departure_date":"11/4/2014","departed_boat":"123aaa"}...] 
     #Optional for 5% extra credit a list of the dates that previous boats departed the slip"""
 
+class Arrival(ndb.Model):
+    sid = ndb.StringProperty()
+    bid = ndb.StringProperty()
+
+class Departure(ndb.Model):
+    sid = ndb.StringProperty()
+    bid = ndb.StringProperty()
+
+class ArrivalHandler(webapp2.RequestHandler):
+    def put(self,bid=None,sid=None)
+        """Boat Arrival"""
+        if bid && sid:
+            boat = ndb.Key(urlsafe=bid).get()
+            slip = ndb.Key(urlsafe=sid).get()
+
+class DepartureHandler(webapp2.RequestHandler):
+    def put(self,bid=None,sid=None)
+        """Boat Departure"""
+        if bid && sid:
+            boat = ndb.Key(urlsafe=bid).get()
+            slip = ndb.Key(urlsafe=sid).get()
+    
 class SlipHandler(webapp2.RequestHandler):
     def post(self):
         slip_data = json.loads(self.request.body)
@@ -90,12 +112,6 @@ class SlipHandler(webapp2.RequestHandler):
             slip_dict['self'] = '/Slip/' + id 
             self.response.write(json.dumps(slip_dict))
             
-    def put(self,bid=None,sid=None)
-        """Boat Arrival"""
-        if bid && sid:
-            boat = ndb.Key(urlsafe=bid).get()
-            slip = ndb.Key(urlsafe=sid).get()
-            
 class BoatHandler(webapp2.RequestHandler):
     def post(self):
         boat_data = json.loads(self.request.body)
@@ -149,14 +165,7 @@ class BoatHandler(webapp2.RequestHandler):
             boat_dict = new_boat.to_dict()
             boat_dict['self'] = "/Boat/" + id
             self.response.write(json.dumps(boat_dict))
-    
-    def put(self,bid=None,sid=None)
-        """Boat Departure"""
-        if bid && sid:
-            boat = ndb.Key(urlsafe=bid).get()
-            slip = ndb.Key(urlsafe=sid).get()
-
-    
+   
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write("Working")
@@ -169,5 +178,9 @@ app = webapp2.WSGIApplication([
     ('/Boat',BoatHandler),
     ('/Boat/(.*)',BoatHandler),
     ('/Slip',SlipHandler),
-    ('/Slip/(.*)',SlipHandler)
+    ('/Slip/(.*)',SlipHandler),
+    ('/Arrival',ArrivalHandler),
+    ('/Arrival/(.*)',ArrivalHandler),
+    ('/Departure',DepartureHandler),
+    ('/Departure/(.*)',DepartureHandler)
 ], debug=True)
