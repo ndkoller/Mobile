@@ -54,26 +54,27 @@ class ArrivalHandler(webapp2.RequestHandler):
             slip_data = json.loads(self.request.body)
             if slip_data['arrival_date']:
                 slip.arrival_date = slip_data['arrival_date']
+            slip_qry = Slip.query().filter(Slip.id == sid).fetch()
+            slip_dict = [a.to_dict() for a in slip_qry]
+            curr_boat = slip_dict[0]
+            if curr_boat['current_boat'] != "":
+                self.response.set_status(403)
+                break
+            boat = ndb.Key(urlsafe=bid).get()
+            slip = ndb.Key(urlsafe=sid).get()
+            boat_dict = boat.to_dict()
+            slip_dict = slip.to_dict()
+            boat_dict['at_sea'] = False
+            slip_dict['current_boat'] = '/Boat/' + bid
+            boat.at_sea = False
+            boat.put()
+            slip.current_boat = '/Boat/' + bid
+            slip.put()
+            self.response.write(json.dumps(boat_dict))
+            self.response.write(json.dumps(slip_dict))
         except:
             self.response.set_status(403)
-        slip_qry = Slip.query().filter(Slip.id == sid).fetch()
-        slip_dict = [a.to_dict() for a in slip_qry]
-        curr_boat = slip_dict[0]
-        if curr_boat['current_boat'] != "":
-            self.response.set_status(403)
-        boat = ndb.Key(urlsafe=bid).get()
-        slip = ndb.Key(urlsafe=sid).get()
-        boat_dict = boat.to_dict()
-        slip_dict = slip.to_dict()
-        boat_dict['at_sea'] = False
-        slip_dict['current_boat'] = '/Boat/' + bid
-        boat.at_sea = False
-        boat.put()
-        slip.current_boat = '/Boat/' + bid
         
-        slip.put()
-        self.response.write(json.dumps(boat_dict))
-        self.response.write(json.dumps(slip_dict))
         
 
 class DepartureHandler(webapp2.RequestHandler):
