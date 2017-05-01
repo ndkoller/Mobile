@@ -32,14 +32,14 @@ class Slip(ndb.Model):
     number = ndb.IntegerProperty(required=True)
     """boat id"""
     current_boat = ndb.StringProperty()
-    arrival_date = ndb.DateTimeProperty()
+    arrival_date = ndb.StringProperty()
     """"departure_history":[{"departure_date":"11/4/2014","departed_boat":"123aaa"}...] 
     #Optional for 5% extra credit a list of the dates that previous boats departed the slip"""
 
 class Arrival(ndb.Model):
     sid = ndb.StringProperty()
     bid = ndb.StringProperty()
-    arrival_date = ndb.DateTimeProperty()
+    arrival_date = ndb.StringProperty()
 
 class Departure(ndb.Model):
     sid = ndb.StringProperty()
