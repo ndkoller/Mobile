@@ -115,19 +115,16 @@ class SlipHandler(webapp2.RequestHandler):
         if id: 
             slip_data = json.loads(self.request.body)
             slip = ndb.Key(urlsafe=id).get()
-            slip_dict = slip.to_dict()
             if slip_dict['number'] != slip_data['number']:
                 slip.number = slip_data['number']
-                setattr(slip,'number',slip_data['number'])
-                slip_dict['number'] = slip_data['number']
+                slip.put()
             if slip_dict['current_boat'] != slip_data['current_boat']:
                 slip.current_boat = slip_data['current_boat']
-                setattr(slip,'current_boat',slip_data['current_boat'])
-                slip_dict['current_boat'] = slip_data['current_boat']
+                slip.put()
             if slip_dict['arrival_date'] != slip_data['arrival_date']:
                 slip.arrival_date = slip_data['arrival_date']
-                setattr(slip,'arrival_date',slip_data['arrival_date'])
-                slip_dict['arrival_date'] = slip_data['arrival_date']
+                slip.put()
+            slip_dict = slip.to_dict()
             slip_dict['self'] = "/Slip/" + id
             self.response.write(json.dumps(slip_dict))
     
