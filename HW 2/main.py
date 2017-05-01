@@ -51,6 +51,8 @@ class ArrivalHandler(webapp2.RequestHandler):
         if bid and sid:
             boat = ndb.Key(urlsafe=bid).get()
             slip = ndb.Key(urlsafe=sid).get()
+            boat.at_sea = False
+            slip.current_boat = boat
 
 class DepartureHandler(webapp2.RequestHandler):
     def put(self,bid=None,sid=None):
@@ -88,6 +90,7 @@ class SlipHandler(webapp2.RequestHandler):
                 slip_qry.Slip.current_boat = None
                 slip_qry.put();
             ndb.Key(urlsafe=id).delete();
+            self.response.http_status_message(204)
     
     def patch(self, id=None):
         if id: 
@@ -142,7 +145,8 @@ class BoatHandler(webapp2.RequestHandler):
                 slip_qry.Slip.current_boat = None
                 slip_qry.put();
             ndb.Key(urlsafe=id).delete();
-    
+            self.response.http_status_message(204) 
+ 
     def patch(self, id=None):
         if id:
             boat_data = json.loads(self.request.body)
