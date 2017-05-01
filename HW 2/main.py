@@ -44,10 +44,7 @@ class Arrival(ndb.Model):
 class Departure(ndb.Model):
     sid = ndb.StringProperty()
     bid = ndb.StringProperty()
-    boat_dict = boat.to_dict()
-    slip_dict = slip.to_dict()
-    boat_dict['at_sea'] = True
-    slip_dict['current_boat'] = None
+
 
 class ArrivalHandler(webapp2.RequestHandler):
     def put(self,bid=None,sid=None):
@@ -66,6 +63,10 @@ class DepartureHandler(webapp2.RequestHandler):
         if bid and sid:
             boat = ndb.Key(urlsafe=bid).get()
             slip = ndb.Key(urlsafe=sid).get()
+                boat_dict = boat.to_dict()
+                slip_dict = slip.to_dict()
+                boat_dict['at_sea'] = True
+                slip_dict['current_boat'] = None
     
 class SlipHandler(webapp2.RequestHandler):
     def post(self):
