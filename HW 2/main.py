@@ -126,13 +126,7 @@ class SlipHandler(webapp2.RequestHandler):
                 boat = ndb.Key(urlsafe=curr_boat_id).get()
                 if boat:
                     boat.at_sea = True
-                """
-                boat_qry = Boat.query().filter(curr_boat_id == Boat.id).fetch()
-                if boat_qry:
-                    boat_dict = [a.to_dict() for a in boat_qry]
-                    curr_boat = boat_dict[0]
-                    boat_dict['at_sea'] = True
-                """
+                    boat.put()
             ndb.Key(urlsafe=id).delete();
             self.response.set_status(204)
     
@@ -188,8 +182,13 @@ class BoatHandler(webapp2.RequestHandler):
         if id:
             slip_qry = Slip.query().filter(Slip.current_boat == id).fetch()
             if slip_qry:
-                slip_qry.Slip.current_boat = None
-                slip_qry.put();
+                slip_dict = [a.to_dict() for a in slip_qry]
+                curr_boat = slip_dict[0]
+                if curr_boat['current_boat']:
+                    slip = ndb.Key(urlsafe=curr_boat['id']).get()
+                    if slip:
+                        slip.current_boat = None
+                        slip.put()
             ndb.Key(urlsafe=id).delete();
             self.response.set_status(204) 
  
