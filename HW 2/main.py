@@ -49,30 +49,30 @@ class Departure(ndb.Model):
 class ArrivalHandler(webapp2.RequestHandler):
     def put(self,bid=None,sid=None):
         """Boat Arrival"""
-        if bid and sid:
-            slip_qry = Slip.query().filter(Slip.id == sid).fetch()
-            slip_dict = [a.to_dict() for a in slip_qry]
-            curr_boat = slip_dict[0]
-            if curr_boat['current_boat'] != "":
-                self.response.set_status(403)
-            boat = ndb.Key(urlsafe=bid).get()
-            slip = ndb.Key(urlsafe=sid).get()
-            boat_dict = boat.to_dict()
-            slip_dict = slip.to_dict()
-            boat_dict['at_sea'] = False
-            slip_dict['current_boat'] = '/Boat/' + bid
-            self.response.write(json.dumps(boat_dict))
+        """if bid and sid:"""
+        slip_qry = Slip.query().filter(Slip.id == sid).fetch()
+        slip_dict = [a.to_dict() for a in slip_qry]
+        curr_boat = slip_dict[0]
+        if curr_boat['current_boat'] != "":
+            self.response.set_status(403)
+        boat = ndb.Key(urlsafe=bid).get()
+        slip = ndb.Key(urlsafe=sid).get()
+        boat_dict = boat.to_dict()
+        slip_dict = slip.to_dict()
+        boat_dict['at_sea'] = False
+        slip_dict['current_boat'] = '/Boat/' + bid
+        self.response.write(json.dumps(boat_dict))
 
 class DepartureHandler(webapp2.RequestHandler):
     def put(self,bid=None,sid=None):
         """Boat Departure"""
-        if bid and sid:
-            boat = ndb.Key(urlsafe=bid).get()
-            slip = ndb.Key(urlsafe=sid).get()
-            boat_dict = boat.to_dict()
-            slip_dict = slip.to_dict()
-            boat_dict['at_sea'] = True
-            slip_dict['current_boat'] = None
+        """if bid and sid:"""
+        boat = ndb.Key(urlsafe=bid).get()
+        slip = ndb.Key(urlsafe=sid).get()
+        boat_dict = boat.to_dict()
+        slip_dict = slip.to_dict()
+        boat_dict['at_sea'] = True
+        slip_dict['current_boat'] = None
     
 class SlipHandler(webapp2.RequestHandler):
     def post(self):
