@@ -50,6 +50,11 @@ class ArrivalHandler(webapp2.RequestHandler):
     def put(self,bid=None,sid=None):
         """Boat Arrival"""
         if bid and sid:
+            slip_qry = Slip.query().filter(Slip.id == id).fetch()
+            slip_dict = [a.to_dict() for a in slip_qry]
+            curr_boat = slip_dict[0]
+            if curr_boat != "":
+                self.response.set_status(403)
             boat = ndb.Key(urlsafe=bid).get()
             slip = ndb.Key(urlsafe=sid).get()
             boat_dict = boat.to_dict()
@@ -90,7 +95,7 @@ class SlipHandler(webapp2.RequestHandler):
         if id:
             slip_qry = Slip.query().filter(Slip.id == id).fetch()
             slip_dict = [a.to_dict() for a in slip_qry]
-            curr_boat = slip_dict['current_boat']
+            curr_boat = slip_dict[0]
             empty, extra, curr_boat_id = curr_boat.split('/')
             boat_qry = Boat.query().filter(Slip.current_boat == Boat.id).fetch()
             if boat_qry:
