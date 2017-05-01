@@ -81,7 +81,9 @@ class SlipHandler(webapp2.RequestHandler):
 
     def get(self):
         qry = Slip.query().fetch(limit=None)
-        self.response.write(qry)            
+        for p in qry
+            p.to_dict()
+        self.response.write(json.dumps(qry))            
 
     def delete(self, id=None):
         if id:
@@ -136,8 +138,10 @@ class BoatHandler(webapp2.RequestHandler):
     
     def get(self):
         qry = Boat.query().fetch(limit=None)
-        self.response.write(qry)
-    
+        for p in qry
+            p.to_dict()
+        self.response.write(json.dumps(qry))
+        
     def delete(self, id=None):
         if id:
             slip_qry = Slip.query().filter(Slip.current_boat == id).fetch()
