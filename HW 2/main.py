@@ -44,6 +44,10 @@ class Arrival(ndb.Model):
 class Departure(ndb.Model):
     sid = ndb.StringProperty()
     bid = ndb.StringProperty()
+    boat_dict = boat.to_dict()
+    slip_dict = slip.to_dict()
+    boat_dict['at_sea'] = True
+    slip_dict['current_boat'] = None
 
 class ArrivalHandler(webapp2.RequestHandler):
     def put(self,bid=None,sid=None):
@@ -81,16 +85,12 @@ class SlipHandler(webapp2.RequestHandler):
             slip_d['self'] = "/Slip/" + id
             self.response.write(json.dumps(slip_d))
 
-    def get(self):
-        qry = Slip.query().fetch(limit=None)
-        self.response.write(json.dumps([p.to_dict() for p in qry]))            
-
     def delete(self, id=None):
         if id:
-            slip_qry = Slip.query().filter(Slip.current_boat == id).fetch()
-            if slip_qry:
-                slip_qry.Slip.current_boat = None
-                slip_qry.put();
+            boat_qry = Boat.query().filter(Slip.current_boat == Boat.id).fetch()
+            if boat_qry:
+                boat_dict = boat_qry.to_dict()
+                boat_dict['at_sea'] = True
             ndb.Key(urlsafe=id).delete();
             self.response.http_status_message(204)
     
@@ -105,10 +105,8 @@ class SlipHandler(webapp2.RequestHandler):
                 slip_dict['current_boat'] = slip_data['current_boat']
             if slip_dict['arrival_date'] != slip_data['arrival_date']:
                 slip_dict['arrival_date'] = slip_data['arrival_date']
-            slip_dict.put()
-            slip_d = slip_dict.to_dict()
-            slip_d['self'] = "/Slip/" + id
-            self.response.write(json.dumps(slip_d))
+            slip_dict['self'] = "/Slip/" + id
+            self.response.write(json.dumps(slip_dict))
     
     def put(self, id=None):
         if id:
@@ -136,9 +134,7 @@ class BoatHandler(webapp2.RequestHandler):
             b_d = b.to_dict()
             b_d['self'] = "/Boat/" + id
             self.response.write(json.dumps(b_d))
-    
-
-        
+  
     def delete(self, id=None):
         if id:
             slip_qry = Slip.query().filter(Slip.current_boat == id).fetch()
@@ -159,10 +155,8 @@ class BoatHandler(webapp2.RequestHandler):
                 boat_dict['type'] = boat_data['type']
             if boat_dict['length'] != boat_data['length']:
                 boat_dict['length'] = boat_data['length']
-            boat_dict.put()
-            b_d = boat_dict.to_dict()
-            b_d['self'] = "/Boat/" + id
-            self.response.write(json.dumps(b_d))
+            boat_dict['self'] = "/Boat/" + id
+            self.response.write(json.dumps(boat_dict))
             
     def put(self, id=None):
         if id:
