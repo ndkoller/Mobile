@@ -59,7 +59,7 @@ class ArrivalHandler(webapp2.RequestHandler):
             curr_boat = slip_dict[0]
             if curr_boat['current_boat'] != "":
                 self.response.set_status(403)
-                break
+                return
             boat = ndb.Key(urlsafe=bid).get()
             slip = ndb.Key(urlsafe=sid).get()
             boat_dict = boat.to_dict()
