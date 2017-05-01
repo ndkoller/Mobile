@@ -120,7 +120,7 @@ class SlipHandler(webapp2.RequestHandler):
             curr_boat = slip_dict[0]
             if curr_boat['current_boat']:
                 empty, extra, curr_boat_id = curr_boat['current_boat'].split('/')
-                boat_qry = Boat.query().filter(Slip.current_boat == Boat.id).fetch()
+                boat_qry = Boat.query().filter(curr_boat_id == Boat.id).fetch()
                 if boat_qry:
                     boat_dict = boat_qry.to_dict()
                     boat_dict['at_sea'] = True
