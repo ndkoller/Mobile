@@ -54,7 +54,7 @@ class ArrivalHandler(webapp2.RequestHandler):
             boat_dict = boat.to_dict()
             slip_dict = slip.to_dict()
             boat_dict['at_sea'] = False
-            slip_dict['current_boat'] = bid
+            slip_dict['current_boat'] = '/Boat/' + bid
 
 class DepartureHandler(webapp2.RequestHandler):
     def put(self,bid=None,sid=None):
@@ -98,14 +98,15 @@ class SlipHandler(webapp2.RequestHandler):
         if id: 
             slip_data = json.loads(self.request.body)
             slip = ndb.Key(urlsafe=id).get()
-            if slip.number != slip_data['number']:
-                slip.number = slip_data['number']
-            if slip.current_boat != slip_data['current_boat']:
-                slip.current_boat = slip_data['current_boat']
-            if slip.arrival_date != slip_data['arrival_date']:
-                slip.arrival_date = slip_data['arrival_date']
-            slip.put()
-            slip_d = slip.to_dict()
+            slip_dict = slip.to_dict()
+            if slip_dict['number'] != slip_data['number']:
+                slip_dict['number'] = slip_data['number']
+            if slip_dict['current_boat'] != slip_data['current_boat']:
+                slip_dict['current_boat'] = slip_data['current_boat']
+            if slip_dict['arrival_date'] != slip_data['arrival_date']:
+                slip_dict['arrival_date'] = slip_data['arrival_date']
+            slip_dict.put()
+            slip_d = slip_dict.to_dict()
             slip_d['self'] = "/Slip/" + id
             self.response.write(json.dumps(slip_d))
     
@@ -153,14 +154,15 @@ class BoatHandler(webapp2.RequestHandler):
         if id:
             boat_data = json.loads(self.request.body)
             boat = ndb.Key(urlsafe=id).get()
-            if boat.name != boat_data['name']:
-                boat.name = boat_data['name']
-            if boat.type != boat_data['type']:
-                boat.type = boat_data['type']
-            if boat.length != boat_data['length']:
-                boat.length = boat_data['length']
-            boat.put()
-            b_d = boat.to_dict()
+            boat_dict = boat.to_dict()
+            if boat_dict['name'] != boat_data['name']:
+                boat_dict['name'] = boat_data['name']
+            if boat_dict['type']  != boat_data['type']:
+                boat_dict['type'] = boat_data['type']
+            if boat_dict['length'] != boat_data['length']:
+                boat_dict['length'] = boat_data['length']
+            boat_dict.put()
+            b_d = boat_dict.to_dict()
             b_d['self'] = "/Boat/" + id
             self.response.write(json.dumps(b_d))
             
