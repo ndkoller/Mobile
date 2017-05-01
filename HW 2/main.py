@@ -48,14 +48,14 @@ class Departure(ndb.Model):
 class ArrivalHandler(webapp2.RequestHandler):
     def put(self,bid=None,sid=None):
         """Boat Arrival"""
-        if bid && sid:
+        if bid and sid:
             boat = ndb.Key(urlsafe=bid).get()
             slip = ndb.Key(urlsafe=sid).get()
 
 class DepartureHandler(webapp2.RequestHandler):
     def put(self,bid=None,sid=None):
         """Boat Departure"""
-        if bid && sid:
+        if bid and sid:
             boat = ndb.Key(urlsafe=bid).get()
             slip = ndb.Key(urlsafe=sid).get()
     
