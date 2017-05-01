@@ -50,6 +50,7 @@ class ArrivalHandler(webapp2.RequestHandler):
     def put(self,bid=None,sid=None):
         """Boat Arrival"""
         """if bid and sid:"""
+        slip_data = json.loads(self.request.body)
         slip_qry = Slip.query().filter(Slip.id == sid).fetch()
         slip_dict = [a.to_dict() for a in slip_qry]
         curr_boat = slip_dict[0]
@@ -64,6 +65,8 @@ class ArrivalHandler(webapp2.RequestHandler):
         boat.at_sea = False
         boat.put()
         slip.current_boat = '/Boat/' + bid
+        if slip_data['arrival_date']:
+            slip.arrival_date = slip_data['arrival_date']
         slip.put()
         self.response.write(json.dumps(boat_dict))
         self.response.write(json.dumps(slip_dict))
