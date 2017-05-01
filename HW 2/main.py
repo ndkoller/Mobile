@@ -89,7 +89,7 @@ class SlipHandler(webapp2.RequestHandler):
     def delete(self, id=None):
         if id:
             slip_qry = Slip.query().filter(Slip.id == id).fetch()
-            slip_dict = slip_qry.to_dict()
+            slip_dict = [a.to_dict() for a in slip_qry]
             curr_boat = slip_dict['current_boat']
             empty, extra, curr_boat_id = curr_boat.split('/')
             boat_qry = Boat.query().filter(Slip.current_boat == Boat.id).fetch()
