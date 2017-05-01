@@ -52,6 +52,8 @@ class ArrivalHandler(webapp2.RequestHandler):
         """if bid and sid:"""
         try:
             slip_data = json.loads(self.request.body)
+            if slip_data['arrival_date']:
+                slip.arrival_date = slip_data['arrival_date']
         except:
             self.response.set_status(403)
         slip_qry = Slip.query().filter(Slip.id == sid).fetch()
@@ -68,8 +70,7 @@ class ArrivalHandler(webapp2.RequestHandler):
         boat.at_sea = False
         boat.put()
         slip.current_boat = '/Boat/' + bid
-        if slip_data['arrival_date']:
-            slip.arrival_date = slip_data['arrival_date']
+        
         slip.put()
         self.response.write(json.dumps(boat_dict))
         self.response.write(json.dumps(slip_dict))
