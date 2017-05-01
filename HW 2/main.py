@@ -93,7 +93,7 @@ class SlipHandler(webapp2.RequestHandler):
                 boat_dict = boat_qry.to_dict()
                 boat_dict['at_sea'] = True
             ndb.Key(urlsafe=id).delete();
-            self.response.http_status_message(204)
+            self.response.set_status(204)
     
     def patch(self, id=None):
         if id: 
@@ -143,7 +143,7 @@ class BoatHandler(webapp2.RequestHandler):
                 slip_qry.Slip.current_boat = None
                 slip_qry.put();
             ndb.Key(urlsafe=id).delete();
-            self.response.http_status_message(204) 
+            self.response.set_status(204) 
  
     def patch(self, id=None):
         if id:
