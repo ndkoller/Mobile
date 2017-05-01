@@ -109,9 +109,12 @@ class SlipHandler(webapp2.RequestHandler):
     def get(self, id=None):
         if id:
             slip = ndb.Key(urlsafe=id).get()
-            slip_d = slip.to_dict()
-            slip_d['self'] = "/Slip/" + id
-            self.response.write(json.dumps(slip_d))
+            if slip:
+                slip_d = slip.to_dict()
+                slip_d['self'] = "/Slip/" + id
+                self.response.write(json.dumps(slip_d))
+            else:
+                self.response.set_status(403)
 
     def delete(self, id=None):
         if id:
@@ -174,9 +177,12 @@ class BoatHandler(webapp2.RequestHandler):
     def get(self, id=None):
         if id:
             b = ndb.Key(urlsafe=id).get();
-            b_d = b.to_dict()
-            b_d['self'] = "/Boat/" + id
-            self.response.write(json.dumps(b_d))
+            if b:
+                b_d = b.to_dict()
+                b_d['self'] = "/Boat/" + id
+                self.response.write(json.dumps(b_d))
+            else:
+                self.response.set_status(403)
   
     def delete(self, id=None):
         if id:
