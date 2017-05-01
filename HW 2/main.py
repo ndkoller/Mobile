@@ -97,15 +97,18 @@ class DepartureHandler(webapp2.RequestHandler):
     
 class SlipHandler(webapp2.RequestHandler):
     def post(self):
-        slip_data = json.loads(self.request.body)
-        new_slip = Slip(id='',number=slip_data['number'],current_boat='',arrival_date=None)
-        new_slip.put()
-        new_slip.id = new_slip.key.urlsafe()
-        new_slip.put()
-        slip_dict = new_slip.to_dict()
-        slip_dict['self'] = '/Slip/' + new_slip.key.urlsafe() 
-        self.response.write(json.dumps(slip_dict))
-
+        try:
+            slip_data = json.loads(self.request.body)
+            new_slip = Slip(id='',number=slip_data['number'],current_boat='',arrival_date=None)
+            new_slip.put()
+            new_slip.id = new_slip.key.urlsafe()
+            new_slip.put()
+            slip_dict = new_slip.to_dict()
+            slip_dict['self'] = '/Slip/' + new_slip.key.urlsafe() 
+            self.response.write(json.dumps(slip_dict))
+        except:
+            self.response.set_status(403)
+        
     def get(self, id=None):
         if id:
             slip = ndb.Key(urlsafe=id).get()
@@ -132,42 +135,51 @@ class SlipHandler(webapp2.RequestHandler):
     
     def patch(self, id=None):
         if id: 
-            slip_data = json.loads(self.request.body)
-            slip = ndb.Key(urlsafe=id).get()
-            slip_dict = slip.to_dict()
-            if slip_dict['number'] != slip_data['number']:
-                slip.number = slip_data['number']
-                slip.put()
-            if slip_dict['current_boat'] != slip_data['current_boat']:
-                slip.current_boat = slip_data['current_boat']
-                slip.put()
-            if slip_dict['arrival_date'] != slip_data['arrival_date']:
-                slip.arrival_date = slip_data['arrival_date']
-                slip.put()
-            slip_dict = slip.to_dict()
-            slip_dict['self'] = "/Slip/" + id
-            self.response.write(json.dumps(slip_dict))
+            try:
+                slip_data = json.loads(self.request.body)
+                slip = ndb.Key(urlsafe=id).get()
+                slip_dict = slip.to_dict()
+                if slip_dict['number'] != slip_data['number']:
+                    slip.number = slip_data['number']
+                    slip.put()
+                if slip_dict['current_boat'] != slip_data['current_boat']:
+                    slip.current_boat = slip_data['current_boat']
+                    slip.put()
+                if slip_dict['arrival_date'] != slip_data['arrival_date']:
+                    slip.arrival_date = slip_data['arrival_date']
+                    slip.put()
+                slip_dict = slip.to_dict()
+                slip_dict['self'] = "/Slip/" + id
+                self.response.write(json.dumps(slip_dict))
+            except:
+                    self.response.set_status(403)
     
     def put(self, id=None):
         if id:
-            slip_data = json.loads(self.request.body)
-            new_slip = Slip(id=id,number=slip_data['number'],current_boat='',arrival_date=None)
-            new_slip.put()
-            slip_dict = new_slip.to_dict()
-            slip_dict['self'] = '/Slip/' + id 
-            self.response.write(json.dumps(slip_dict))
+            try:
+                slip_data = json.loads(self.request.body)
+                new_slip = Slip(id=id,number=slip_data['number'],current_boat='',arrival_date=None)
+                new_slip.put()
+                slip_dict = new_slip.to_dict()
+                slip_dict['self'] = '/Slip/' + id 
+                self.response.write(json.dumps(slip_dict))
+            except:
+                self.response.set_status(403)
             
 class BoatHandler(webapp2.RequestHandler):
     def post(self):
-        boat_data = json.loads(self.request.body)
-        new_boat = Boat(id='',name=boat_data['name'],type=boat_data['type'],length=boat_data['length'],at_sea=True)
-        new_boat.put()
-        new_boat.id = new_boat.key.urlsafe()
-        new_boat.put()
-        boat_dict = new_boat.to_dict()
-        boat_dict['self'] = '/Boat/' + new_boat.key.urlsafe() 
-        self.response.write(json.dumps(boat_dict))
-
+        try:
+            boat_data = json.loads(self.request.body)
+            new_boat = Boat(id='',name=boat_data['name'],type=boat_data['type'],length=boat_data['length'],at_sea=True)
+            new_boat.put()
+            new_boat.id = new_boat.key.urlsafe()
+            new_boat.put()
+            boat_dict = new_boat.to_dict()
+            boat_dict['self'] = '/Boat/' + new_boat.key.urlsafe() 
+            self.response.write(json.dumps(boat_dict))
+        except:
+            self.response.set_status(403)
+            
     def get(self, id=None):
         if id:
             b = ndb.Key(urlsafe=id).get();
@@ -194,22 +206,25 @@ class BoatHandler(webapp2.RequestHandler):
  
     def patch(self, id=None):
         if id:
-            boat_data = json.loads(self.request.body)
-            boat = ndb.Key(urlsafe=id).get()
-            boat_dict = boat.to_dict()
-            if boat_dict['name'] != boat_data['name']:
-                boat.name = boat_data['name']
-                boat.put()
-            if boat_dict['type'] != boat_data['type']:
-                boat.type = boat_data['type']
-                boat.put()
-            if boat_dict['length'] != boat_data['length']:
-                boat.length = boat_data['length']
-                boat.put()
-            boat_dict = boat.to_dict()
-            boat_dict['self'] = "/Boat/" + id
-            self.response.write(json.dumps(boat_dict))
-            
+            try:
+                boat_data = json.loads(self.request.body)
+                boat = ndb.Key(urlsafe=id).get()
+                boat_dict = boat.to_dict()
+                if boat_dict['name'] != boat_data['name']:
+                    boat.name = boat_data['name']
+                    boat.put()
+                if boat_dict['type'] != boat_data['type']:
+                    boat.type = boat_data['type']
+                    boat.put()
+                if boat_dict['length'] != boat_data['length']:
+                    boat.length = boat_data['length']
+                    boat.put()
+                boat_dict = boat.to_dict()
+                boat_dict['self'] = "/Boat/" + id
+                self.response.write(json.dumps(boat_dict))
+            except:
+                self.response.set_status(403)
+    
     def put(self, id=None):
         if id:
             boat_data = json.loads(self.request.body)
