@@ -97,7 +97,8 @@ class SlipHandler(webapp2.RequestHandler):
             slip_qry = Slip.query().filter(Slip.id == id).fetch()
             slip_dict = [a.to_dict() for a in slip_qry]
             curr_boat = slip_dict[0]
-            empty, extra, curr_boat_id = curr_boat['current_boat'].split('/')
+            if curr_boat['current_boat']:
+                empty, extra, curr_boat_id = curr_boat['current_boat'].split('/')
             boat_qry = Boat.query().filter(Slip.current_boat == Boat.id).fetch()
             if boat_qry:
                 boat_dict = boat_qry.to_dict()
@@ -203,9 +204,9 @@ app = webapp2.WSGIApplication([
     ('/Slip',SlipHandler),
     ('/Slip/(.*)',SlipHandler),
     ('/Arrival',ArrivalHandler),
-    ('/Arrival/(.*)',ArrivalHandler),
+    ('/Arrival/(.*)/(.*)',ArrivalHandler),
     ('/Departure',DepartureHandler),
-    ('/Departure/(.*)',DepartureHandler),
+    ('/Departure/(.*)/(.*)',DepartureHandler),
     ('/ViewBoats/',BoatViewHandler),
     ('/ViewSlips/',SlipViewHandler)
 ], debug=True)
