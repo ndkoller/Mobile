@@ -51,8 +51,10 @@ class ArrivalHandler(webapp2.RequestHandler):
         if bid and sid:
             boat = ndb.Key(urlsafe=bid).get()
             slip = ndb.Key(urlsafe=sid).get()
-            boat.at_sea = False
-            slip.current_boat = boat
+            boat_dict = boat.to_dict()
+            slip_dict = slip.to_dict()
+            boat_dict['at_sea'] = False
+            slip_dict['current_boat'] = bid
 
 class DepartureHandler(webapp2.RequestHandler):
     def put(self,bid=None,sid=None):
@@ -81,9 +83,7 @@ class SlipHandler(webapp2.RequestHandler):
 
     def get(self):
         qry = Slip.query().fetch(limit=None)
-        for p in qry:
-            p.to_dict()
-        self.response.write(json.dumps(qry))            
+        self.response.write(json.dumps([p.to_dict() for p in qry]))            
 
     def delete(self, id=None):
         if id:
@@ -138,9 +138,7 @@ class BoatHandler(webapp2.RequestHandler):
     
     def get(self):
         qry = Boat.query().fetch(limit=None)
-        for p in qry:
-            p.to_dict()
-        self.response.write(json.dumps(qry))
+        self.response.write(json.dumps([p.to_dict() for p in qry])) 
         
     def delete(self, id=None):
         if id:
