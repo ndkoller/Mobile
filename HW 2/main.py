@@ -75,7 +75,6 @@ class ArrivalHandler(webapp2.RequestHandler):
         except:
             self.response.set_status(403)
         
-        
 
 class DepartureHandler(webapp2.RequestHandler):
     def put(self,bid=None,sid=None):
