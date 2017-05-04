@@ -21,12 +21,11 @@ import json
 
 class OauthHandler(webapp2.RequestHandler):
     def get(self):
-        logging.debug('The Contents of the GET request are:' + rpr(self.))
+        logging.debug('The Contents of the GET request are:' + repr(self.request.GET))
         
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write("Working")
-        
 
 allowed_methods = webapp2.WSGIApplication.allowed_methods
 new_allowed_methods = allowed_methods.union(('PATCH',))
