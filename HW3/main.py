@@ -23,7 +23,7 @@ import os #added
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        path = os.path.join(os.path.dirname(__file__), 'templates/index.html') 
+        path = os.path.join(os.path.dirname(__file__), 'index.html') 
         self.response.out.write(template.render(path, {}))        
 
 class Guestbook(webapp2.RequestHandler):
