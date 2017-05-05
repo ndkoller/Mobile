@@ -15,22 +15,32 @@
 # limitations under the License.
 #
 from google.appengine.ext import ndb
+from google.appengine.ext.webapp import template #also added
 import logging
 import webapp2
 import json
+import os #added
+
+class MainPage(webapp2.RequestHandler):
+    def get(self):
+        path = os.path.join(os.path.dirname(__file__), 'templates/index.html') 
+        self.response.out.write(template.render(path, {}))        
+
+class Guestbook(webapp2.RequestHandler):
+    def post(self): #didn't change this
+        self.response.write('<html><body>You wrote:<pre>')
+        self.response.write(cgi.escape(self.request.get('content')))
+        self.response.write('</pre></body></html>')
 
 class OauthHandler(webapp2.RequestHandler):
     def get(self):
         logging.debug('The Contents of the GET request are:' + repr(self.request.GET))
         
-class MainHandler(webapp2.RequestHandler):
-    def get(self):
-        self.response.write("Working")
-
 allowed_methods = webapp2.WSGIApplication.allowed_methods
 new_allowed_methods = allowed_methods.union(('PATCH',))
 webapp2.WSGIApplication.allowed_methods = new_allowed_methods
 app = webapp2.WSGIApplication([
-    ('/', MainHandler),
+    ('/', MainPage),
     ('/oauth',OauthHandler),
+    ('/sign', Guestbook),
 ], debug=True)
