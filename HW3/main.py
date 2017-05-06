@@ -60,8 +60,10 @@ class OauthHandler(webapp2.RequestHandler):
         result = urlfetch.fetch(url_app_3, encoded_data, method='POST')
 
         # Output response of application-3 to screen
-        self.response.headers['Content-Type'] = :'application/x-www-form-urlencoded'
+        self.response.headers['Content-Type'] = 'application/x-www-form-urlencoded'
         self.response.write(result.content)
+        path = os.path.join(os.path.dirname(__file__), 'result.html') 
+        self.response.out.write(template.render(path, {}))
         # logging.debug('The Contents of the GET request are:' + repr(self.request.GET))
         
 allowed_methods = webapp2.WSGIApplication.allowed_methods
