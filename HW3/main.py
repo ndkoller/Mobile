@@ -40,14 +40,14 @@ class Guestbook(webapp2.RequestHandler):
 
 class OauthHandler(webapp2.RequestHandler):
     def get(self):
+        data_to_post = {
+            'message': repr(self.request.GET)
+        }
+        encoded_data = urllib.urlencode(data_to_post)
+        # Send encoded data to application-2
+        result = urlfetch.fetch(url_app_2, encoded_data, method='POST')
+    def post(self)
         code = self.request.get("code")
-        # data_to_post = {
-            # 'message': code
-        # }
-        # encoded_data = urllib.urlencode(data_to_post)
-        # # Send encoded data to application-2
-        # result = urlfetch.fetch(url_app_2, encoded_data, method='POST')
-
         data_to_post = {
           'code': code,
           'client_id': '241975773079-8im8k4jqvnusoqag4g2ocs1pvrf3u34b.apps.googleusercontent.com',
@@ -64,7 +64,7 @@ class OauthHandler(webapp2.RequestHandler):
         self.response.write(result.content)
         path = os.path.join(os.path.dirname(__file__), 'result.html') 
         self.response.out.write(template.render(path, {}))
-        # logging.debug('The Contents of the GET request are:' + repr(self.request.GET))
+        # logging.debug('The Contents of the GET request are:' + )
         
 allowed_methods = webapp2.WSGIApplication.allowed_methods
 new_allowed_methods = allowed_methods.union(('PATCH',))
