@@ -23,9 +23,6 @@ import os #added
 import urllib
 from google.appengine.api import urlfetch
 
-
-
-
 class MainPage(webapp2.RequestHandler):
     def get(self):
         path = os.path.join(os.path.dirname(__file__), 'index.html') 
@@ -38,7 +35,8 @@ class LoginHandler(webapp2.RequestHandler):
         url_app_3 = 'https://www.googleapis.com/oauth2/v4/token'
         CLIENT_ID = '241975773079-8im8k4jqvnusoqag4g2ocs1pvrf3u34b.apps.googleusercontent.com'
         CLIENT_SECRET = '9imJ7fAOpdlWEQ6YkHuD7PSj'
-        login='https://accounts.google.com/o/oauth2/v2/auth'+'?'+'response_type=code'+'&client_id='+CLIENT_ID+'&client_secret='+CLIENT_SECRET+'&redirect_uri='+REDIRECT_URI+'&scope=email'+'&state=MyBigSecret123'+'&access_type=offline'
+        #login='https://accounts.google.com/o/oauth2/v2/auth'+'?'+'response_type=code'+'&client_id='+CLIENT_ID+'&client_secret='+CLIENT_SECRET+'&redirect_uri='+REDIRECT_URI+'&scope=email'+'&state=MyBigSecret123'+'&access_type=offline'
+        login='https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=241975773079-8im8k4jqvnusoqag4g2ocs1pvrf3u34b.apps.googleusercontent.com&redirect_uri=https://homework3-166620.appspot.com/oauth&scope=email&state=MyBigSecret123'
         self.response.write(login)
         urlfetch.fetch(login,method=urlfetch.GET)
         
