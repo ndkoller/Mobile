@@ -45,7 +45,7 @@ class OauthHandler(webapp2.RequestHandler):
         }
         encoded_data = urllib.urlencode(data_to_post)
         # Send encoded data to application-2
-        result = urlfetch.fetch(url_app_2, encoded_data, method='POST')
+        result = urlfetch.fetch(url_app_3, encoded_data, method='POST')
     def post(self):
         code = self.request.get("code")
         data_to_post = {
