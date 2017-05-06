@@ -51,7 +51,7 @@ class OauthHandler(webapp2.RequestHandler):
       'code': result.content.message,
       'client_id': '241975773079-8im8k4jqvnusoqag4g2ocs1pvrf3u34b.apps.googleusercontent.com',
       'client_secert': '9imJ7fAOpdlWEQ6YkHuD7PSj',
-      'redirect_uri': https://homework3-166620.appspot.com/oauth,
+      'redirect_uri': 'https://homework3-166620.appspot.com/oauth',
       'grant_type': authorization_code
     }
     encoded_data = urllib.urlencode(data_to_post)
