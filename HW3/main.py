@@ -40,7 +40,7 @@ class Guestbook(webapp2.RequestHandler):
 
 class OauthHandler(webapp2.RequestHandler):
     def get(self):
-        code = self.request.get('code')
+        code = self.request.get("code")
         # data_to_post = {
             # 'message': code
         # }
@@ -51,9 +51,9 @@ class OauthHandler(webapp2.RequestHandler):
         data_to_post = {
           'code': code,
           'client_id': '241975773079-8im8k4jqvnusoqag4g2ocs1pvrf3u34b.apps.googleusercontent.com',
-          'client_secert': '9imJ7fAOpdlWEQ6YkHuD7PSj',
+          'client_secret': '9imJ7fAOpdlWEQ6YkHuD7PSj',
           'redirect_uri': 'https://homework3-166620.appspot.com/oauth',
-          'grant_type': authorization_code
+          'grant_type': 'authorization_code'
         }
         encoded_data = urllib.urlencode(data_to_post)
         # Send encoded application-2 response to application-3
