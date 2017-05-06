@@ -23,8 +23,10 @@ import os #added
 import urllib
 from google.appengine.api import urlfetch
 
-url_app_2 = 'https://homework3-166620.appspot.com/oauth'
+REDIRECT_URI = 'https://homework3-166620.appspot.com/oauth'
 url_app_3 = 'https://www.googleapis.com/oauth2/v4/token'
+CLIENT_ID = ''
+CLIENT_SECRET = ''
 
 
 class MainPage(webapp2.RequestHandler):
@@ -32,27 +34,15 @@ class MainPage(webapp2.RequestHandler):
         path = os.path.join(os.path.dirname(__file__), 'index.html') 
         self.response.out.write(template.render(path, {}))        
 
-class Guestbook(webapp2.RequestHandler):
-    def post(self): #didn't change this
-        self.response.write('<html><body>You wrote:<pre>')
-        self.response.write(cgi.escape(self.request.get('content')))
-        self.response.write('</pre></body></html>')
-
 class OauthHandler(webapp2.RequestHandler):
     def get(self):
         state=self.request.get("state")
-        authorizationCode=self.request.get("code")
+        code=self.request.get("code")
 
         self.response.write('The secret state is: '+state+'\n')
         self.response.write(authorizationCode)
-        # data_to_post = {
-            # 'message': repr(self.request.GET)
-        # }
-        # encoded_data = urllib.urlencode(data_to_post)
-        # # Send encoded data to application-2
-        # result = urlfetch.fetch(url_app_3, payload=encoded_data, method=urlfetch.POST)
-    def post(self):
-        code = self.request.get("code")
+
+        #POST to use authorizationCode to get access token
         data_to_post = {
           'code': code,
           'client_id': '241975773079-8im8k4jqvnusoqag4g2ocs1pvrf3u34b.apps.googleusercontent.com',
@@ -64,7 +54,8 @@ class OauthHandler(webapp2.RequestHandler):
         # Send encoded application-2 response to application-3
         headers={'Content-Type':'application/x-www-form-urlencoded'}
         result = urlfetch.fetch(url_app_3, headers=headers, payload=encoded_data, method=urlfetch.POST)
-
+        json_result=json.loads(result.content)
+        accessToken=json_result['access_token']
         # Output response of application-3 to screen
 
         self.response.write(result.content)
@@ -77,6 +68,5 @@ new_allowed_methods = allowed_methods.union(('PATCH',))
 webapp2.WSGIApplication.allowed_methods = new_allowed_methods
 app = webapp2.WSGIApplication([
     ('/', MainPage),
-    ('/oauth',OauthHandler),
-    ('/sign', Guestbook),
+    ('/oauth',OauthHandler)
 ], debug=True)
