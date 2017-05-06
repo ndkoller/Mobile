@@ -21,6 +21,7 @@ import webapp2
 import json
 import os #added
 import urllib
+import urllib2
 from google.appengine.api import urlfetch
 
 REDIRECT_URI = 'https://homework3-166620.appspot.com/oauth'
@@ -38,16 +39,16 @@ class LoginHandler(webapp2.RequestHandler):
     def get(self):
         login = 'https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=241975773079-8im8k4jqvnusoqag4g2ocs1pvrf3u34b.apps.googleusercontent.com&redirect_uri=https://homework3-166620.appspot.com/oauth&scope=email&state=MyBigSecret123'
         self.response.write(login)
-        urlfetch.fetch(login,method=urlfetch.GET)
+        req = urllib2.Request(login)
+        response = urllib2.urlopen(req)
+        the_page = response.read()
         
 class OauthHandler(webapp2.RequestHandler):
     def get(self):
         state=self.request.get("state")
         code=self.request.get("code")
-
         self.response.write('The secret state is: '+state+'\n')
         self.response.write(code)
-
         #POST to use authorizationCode to get access token
         data_to_post = {
           'code': code,
