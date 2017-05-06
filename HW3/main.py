@@ -40,12 +40,17 @@ class Guestbook(webapp2.RequestHandler):
 
 class OauthHandler(webapp2.RequestHandler):
     def get(self):
-        data_to_post = {
-            'message': repr(self.request.GET)
-        }
-        encoded_data = urllib.urlencode(data_to_post)
-        # Send encoded data to application-2
-        result = urlfetch.fetch(url_app_3, encoded_data, method='POST')
+        state=self.request.get("state")
+        authorizationCode=self.request.get("code")
+
+        self.response.write('The secret state is: '+state+'\n')
+        self.response.write(authorizationCode)
+        # data_to_post = {
+            # 'message': repr(self.request.GET)
+        # }
+        # encoded_data = urllib.urlencode(data_to_post)
+        # # Send encoded data to application-2
+        # result = urlfetch.fetch(url_app_3, payload=encoded_data, method=urlfetch.POST)
     def post(self):
         code = self.request.get("code")
         data_to_post = {
@@ -57,10 +62,11 @@ class OauthHandler(webapp2.RequestHandler):
         }
         encoded_data = urllib.urlencode(data_to_post)
         # Send encoded application-2 response to application-3
-        result = urlfetch.fetch(url_app_3, encoded_data, method='POST')
+        headers={'Content-Type':'application/x-www-form-urlencoded'}
+        result = urlfetch.fetch(url_app_3, headers=headers, payload=encoded_data, method=urlfetch.POST)
 
         # Output response of application-3 to screen
-        self.response.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+
         self.response.write(result.content)
         path = os.path.join(os.path.dirname(__file__), 'result.html') 
         self.response.out.write(template.render(path, {}))
