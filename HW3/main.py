@@ -37,7 +37,7 @@ class MainPage(webapp2.RequestHandler):
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
-        LOGIN_URI = LOGIN_URI+'response_type=code'+'client_id='+CLIENT_ID+'client_secret='+CLIENT_SECRET+'redirect_uri='+REDIRECT_URI+'scope=email'+'state=MyBigSecret123'+'access_type=offline'
+        LOGIN_URI = LOGIN_URI+'?'+'response_type=code'+'client_id='+CLIENT_ID+'client_secret='+CLIENT_SECRET+'redirect_uri='+REDIRECT_URI+'scope=email'+'state=MyBigSecret123'+'access_type=offline'
         self.response.write(LOGIN_URI)
         urlfetch.fetch(LOGIN_URI,method=urlfetch.GET)
         
