@@ -46,11 +46,7 @@ class LoginHandler(webapp2.RequestHandler):
         
 class OauthHandler(webapp2.RequestHandler):
     def get(self):
-        REDIRECT_URI = 'https://homework3-166620.appspot.com/oauth'
-        LOGIN_URI = 'https://accounts.google.com/o/oauth2/v2/auth'
-        url_app_3 = 'https://www.googleapis.com/oauth2/v4/token'
-        CLIENT_ID = '241975773079-8im8k4jqvnusoqag4g2ocs1pvrf3u34b.apps.googleusercontent.com'
-        CLIENT_SECRET = '9imJ7fAOpdlWEQ6YkHuD7PSj'
+
         state=self.request.get("state")
         code=self.request.get("code")
 
