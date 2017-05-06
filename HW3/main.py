@@ -40,9 +40,9 @@ class Guestbook(webapp2.RequestHandler):
 
 class OauthHandler(webapp2.RequestHandler):
     def get(self):
-        code = self.request.GET.items()   
+        code = self.request.get('code')
         data_to_post = {
-            'message': code[1]
+            'message': code
         }
         encoded_data = urllib.urlencode(data_to_post)
         # Send encoded data to application-2
