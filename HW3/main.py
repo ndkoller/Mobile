@@ -41,7 +41,7 @@ class Guestbook(webapp2.RequestHandler):
 class OauthHandler(webapp2.RequestHandler):
     def get(self):
             data_to_post = {
-      'message': repr(self.request.GET)
+      'message': self.request.GET
     }
     encoded_data = urllib.urlencode(data_to_post)
     # Send encoded data to application-2
@@ -61,7 +61,7 @@ class OauthHandler(webapp2.RequestHandler):
     # Output response of application-3 to screen
     self.response.headers['Content-Type'] = 'text/plain'
     self.response.write(result.content)
-    logging.debug('The Contents of the GET request are:' + repr(self.request.GET))
+    # logging.debug('The Contents of the GET request are:' + repr(self.request.GET))
         
 allowed_methods = webapp2.WSGIApplication.allowed_methods
 new_allowed_methods = allowed_methods.union(('PATCH',))
