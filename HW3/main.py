@@ -47,8 +47,6 @@ class OauthHandler(webapp2.RequestHandler):
     def get(self):
         state=self.request.get("state")
         code=self.request.get("code")
-        self.response.write('The secret state is: '+state+'\n')
-        self.response.write(code)
         #POST to use authorizationCode to get access token
         data_to_post = {
           'code': code,
