@@ -39,7 +39,6 @@ class LoginHandler(webapp2.RequestHandler):
     def get(self):
         
         login = 'https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=241975773079-8im8k4jqvnusoqag4g2ocs1pvrf3u34b.apps.googleusercontent.com&redirect_uri=https://homework3-166620.appspot.com/oauth&scope=email&state=MyBigSecret123'
-        self.response.write(login)
         req = urllib2.Request(login)
         response = urllib2.urlopen(req)
         the_page = response.read()
