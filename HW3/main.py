@@ -23,7 +23,7 @@ import os #added
 import urllib
 from google.appengine.api import urlfetch
 
-url_app_2 = 'https://homework3-166620.appspot.com/oauth?state=MyBigSecret123&code=4/jaJJw0oasy7t_euzwhbc13fFY93yUZ_Pa_DNL3p4pws#'
+url_app_2 = 'https://homework3-166620.appspot.com/oauth'
 url_app_3 = 'https://www.googleapis.com/oauth2/v4/token'
 
 
