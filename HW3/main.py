@@ -24,7 +24,7 @@ import urllib
 from google.appengine.api import urlfetch
 
 REDIRECT_URI = 'https://homework3-166620.appspot.com/oauth'
-LOGIN_URI='https://accounts.google.com/o/oauth2/v2/auth'
+LOGIN_URI = 'https://accounts.google.com/o/oauth2/v2/auth'
 url_app_3 = 'https://www.googleapis.com/oauth2/v4/token'
 CLIENT_ID = '241975773079-8im8k4jqvnusoqag4g2ocs1pvrf3u34b.apps.googleusercontent.com'
 CLIENT_SECRET = '9imJ7fAOpdlWEQ6YkHuD7PSj'
@@ -36,18 +36,12 @@ class MainPage(webapp2.RequestHandler):
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
-        # global LOGIN_URI
-        # global CLIENT_ID
-        # global CLIENT_SECRET
-        # global REDIRECT_URI
-        # login=LOGIN_URI+'?'+'response_type=code'+'&client_id='+CLIENT_ID+'&client_secret='+CLIENT_SECRET+'&redirect_uri='+REDIRECT_URI+'&scope=email'+'&state=MyBigSecret123'+'&access_type=offline'
         login = 'https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=241975773079-8im8k4jqvnusoqag4g2ocs1pvrf3u34b.apps.googleusercontent.com&redirect_uri=https://homework3-166620.appspot.com/oauth&scope=email&state=MyBigSecret123'
         self.response.write(login)
         urlfetch.fetch(login,method=urlfetch.GET)
         
 class OauthHandler(webapp2.RequestHandler):
     def get(self):
-
         state=self.request.get("state")
         code=self.request.get("code")
 
