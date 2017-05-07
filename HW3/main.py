@@ -80,11 +80,11 @@ class OauthHandler(webapp2.RequestHandler):
         }
         final_result = urlfetch.fetch(url, headers=headers,  method=urlfetch.GET)
         parse_result=json.loads(final_result.content)
-        self.response.write(parse_result)
-        
+        name=parse_result['displayName']
+        displayUrl=parse_result['url']
         path = os.path.join(os.path.dirname(__file__), 'result.html') 
         self.response.out.write(template.render(path, {}))
-        self.response.write(result.content)
+        self.response.write('Name: '+name+'\n'+'Google+ url: '+displayUrl+'\n'+'State Variable: '+STATE)
 
         # logging.debug('The Contents of the GET request are:' + )
         
