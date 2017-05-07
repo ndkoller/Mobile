@@ -72,7 +72,7 @@ class OauthHandler(webapp2.RequestHandler):
         json_result=json.loads(result.content)
         accessToken=json_result['access_token']
         # Output response of application-3 to screen
-        url='https://www.googleapis.com/plus/v1/people'
+        url='https://www.googleapis.com/plus/v1/people/me'
         values = {
             'access_token': accessToken
         }
