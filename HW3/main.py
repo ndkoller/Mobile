@@ -75,19 +75,17 @@ class OauthHandler(webapp2.RequestHandler):
         # Output response of application-3 to screen
         
         url='https://www.googleapis.com/plus/v1/people/me'
-        values = {
+        headers = {
             'Authorization': token_type +' '+accessToken
         }
-        data = urllib.urlencode(values)
-        address = url + '?' + data
-        final_result=urllib2.urlopen(address).read()
+        final_result = urlfetch.fetch(url, headers=headers,  method=urlfetch.GET)
         parse_result=json.loads(final_result.content)
         self.response.write(parse_result)
         
         path = os.path.join(os.path.dirname(__file__), 'result.html') 
         self.response.out.write(template.render(path, {}))
         self.response.write(result.content)
-        self.response.write(parse_result)
+
         # logging.debug('The Contents of the GET request are:' + )
         
 allowed_methods = webapp2.WSGIApplication.allowed_methods
