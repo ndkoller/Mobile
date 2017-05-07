@@ -39,7 +39,6 @@ class MainPage(webapp2.RequestHandler):
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
         
-        login = 'https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=241975773079-8im8k4jqvnusoqag4g2ocs1pvrf3u34b.apps.googleusercontent.com&redirect_uri=https://homework3-166620.appspot.com/oauth&scope=email&state=MyBigSecret123'
         url = 'https://accounts.google.com/o/oauth2/auth'
         values = {
             'response_type':'code',
@@ -73,10 +72,19 @@ class OauthHandler(webapp2.RequestHandler):
         json_result=json.loads(result.content)
         accessToken=json_result['access_token']
         # Output response of application-3 to screen
-
-        self.response.write(result.content)
+        url='https://www.googleapis.com/plus/v1/people/me'
+        values = {
+            'access_token': accessToken
+        }
+        data = urllib.urlencode(values)
+        address = url + '?' + data
+        final_result=urllib2.urlopen(address).read()
+        parse_result=json.loads(final_result.content)
+        self.response.write(parse_result)
+        
         path = os.path.join(os.path.dirname(__file__), 'result.html') 
         self.response.out.write(template.render(path, {}))
+        
         # logging.debug('The Contents of the GET request are:' + )
         
 allowed_methods = webapp2.WSGIApplication.allowed_methods
