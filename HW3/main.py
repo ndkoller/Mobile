@@ -78,13 +78,13 @@ class OauthHandler(webapp2.RequestHandler):
         }
         data = urllib.urlencode(values)
         address = url + '?' + data
-        final_result=urllib2.urlopen(address).read()
-        parse_result=json.loads(final_result.content)
-        self.response.write(parse_result)
+        # final_result=urllib2.urlopen(address).read()
+        # parse_result=json.loads(final_result.content)
+        # self.response.write(parse_result)
         
         path = os.path.join(os.path.dirname(__file__), 'result.html') 
         self.response.out.write(template.render(path, {}))
-        
+        self.response.write(result.content)
         # logging.debug('The Contents of the GET request are:' + )
         
 allowed_methods = webapp2.WSGIApplication.allowed_methods
